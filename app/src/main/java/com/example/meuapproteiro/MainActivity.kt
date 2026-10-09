@@ -13,15 +13,12 @@ import androidx.compose.material.icons.filled.List
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.ViewModel
-import androidx.navigation.NavController
 import androidx.navigation.NavType
 import androidx.navigation.compose.*
 import androidx.navigation.navArgument
-
 
 data class Cliente(val id: Int, val nome: String, val email: String, val telefone: String)
 data class Produto(val id: Int, val titulo: String, val preco: String, val categoria: String)
@@ -38,7 +35,6 @@ class AppViewModel : ViewModel() {
         Produto(2, "Mouse Sem Fio", "120.00", "Acessorios")
     )
     private var nextProdutoId = 3
-
 
     fun salvarCliente(id: Int?, nome: String, email: String, tel: String) {
         if (id == null || id == 0) {
@@ -74,7 +70,6 @@ class MainActivity : ComponentActivity() {
     }
 }
 
-
 @Composable
 fun AppNavegacao(vm: AppViewModel = remember { AppViewModel() }) {
     val navController = rememberNavController()
@@ -89,13 +84,13 @@ fun AppNavegacao(vm: AppViewModel = remember { AppViewModel() }) {
                         selected = rotaAtual == "clientes",
                         onClick = { navController.navigate("clientes") { launchSingleTop = true } },
                         icon = { Icon(Icons.Default.Person, contentDescription = null) },
-                        label = { Text("Clinetes") }
+                        label = { Text("Clientes") }
                     )
                     NavigationBarItem(
                         selected = rotaAtual == "produtos",
                         onClick = { navController.navigate("produtos") { launchSingleTop = true } },
                         icon = { Icon(Icons.Default.List, contentDescription = null) },
-                        label = { Text("Produdos") }
+                        label = { Text("Produtos") }
                     )
                 }
             }
@@ -121,7 +116,6 @@ fun AppNavegacao(vm: AppViewModel = remember { AppViewModel() }) {
                     onEdit = { id -> navController.navigate("form_produto/$id") }
                 )
             }
-
 
             composable(
                 route = "form_cliente/{id}",
@@ -158,7 +152,6 @@ fun AppNavegacao(vm: AppViewModel = remember { AppViewModel() }) {
     }
 }
 
-
 @Composable
 fun TelaListaClientes(
     clientes: List<Cliente>,
@@ -173,7 +166,7 @@ fun TelaListaClientes(
         }
     ) { p ->
         Column(modifier = Modifier.padding(p).fillMaxSize().padding(16.dp)) {
-            Text("Listage de Clientes", style = MaterialTheme.typography.titleLarge)
+            Text("Listagem de Clientes", style = MaterialTheme.typography.titleLarge)
             Spacer(modifier = Modifier.height(10.dp))
 
             LazyColumn {
@@ -200,7 +193,7 @@ fun TelaListaProdutos(
         }
     ) { p ->
         Column(modifier = Modifier.padding(p).fillMaxSize().padding(16.dp)) {
-            Text("Listage de Produtos", style = MaterialTheme.typography.titleLarge)
+            Text("Listagem de Produtos", style = MaterialTheme.typography.titleLarge)
             Spacer(modifier = Modifier.height(10.dp))
 
             LazyColumn {
@@ -212,7 +205,6 @@ fun TelaListaProdutos(
         }
     }
 }
-
 
 @Composable
 fun CardClientePersonalizado(cliente: Cliente, onClick: () -> Unit) {
@@ -227,7 +219,6 @@ fun CardClientePersonalizado(cliente: Cliente, onClick: () -> Unit) {
     }
 }
 
-
 @Composable
 fun CardProdutoPersonalizado(produto: Produto, onClick: () -> Unit) {
     Card(
@@ -235,7 +226,7 @@ fun CardProdutoPersonalizado(produto: Produto, onClick: () -> Unit) {
     ) {
         Column(modifier = Modifier.padding(14.dp)) {
             Text(text = produto.titulo, style = MaterialTheme.typography.titleMedium)
-            Text(text = "Preco: R$ ${produto.preco}", style = MaterialTheme.typography.bodyMedium)
+            Text(text = "Preço: R$ ${produto.preco}", style = MaterialTheme.typography.bodyMedium)
             Text(text = "Categoria: ${produto.categoria}", style = MaterialTheme.typography.bodySmall)
         }
     }
@@ -253,7 +244,7 @@ fun TelaFormCliente(
 
     Column(modifier = Modifier.fillMaxSize().padding(16.dp)) {
         Text(
-            text = if (cliente == null) "Cadastra Novo Cliente" else "Edita Cliente",
+            text = if (cliente == null) "Cadastrar Novo Cliente" else "Editar Cliente",
             style = MaterialTheme.typography.headlineSmall
         )
         Spacer(modifier = Modifier.height(16.dp))
@@ -261,7 +252,7 @@ fun TelaFormCliente(
         OutlinedTextField(
             value = nome,
             onValueChange = { nome = it },
-            label = { Text("Nome do clinte") },
+            label = { Text("Nome do cliente") },
             modifier = Modifier.fillMaxWidth()
         )
         Spacer(modifier = Modifier.height(8.dp))
@@ -269,7 +260,7 @@ fun TelaFormCliente(
         OutlinedTextField(
             value = email,
             onValueChange = { email = it },
-            label = { Text("Emal") },
+            label = { Text("Email") },
             modifier = Modifier.fillMaxWidth()
         )
         Spacer(modifier = Modifier.height(8.dp))
@@ -277,7 +268,7 @@ fun TelaFormCliente(
         OutlinedTextField(
             value = telefone,
             onValueChange = { telefone = it },
-            label = { Text("Numero de telefone") },
+            label = { Text("Número de telefone") },
             modifier = Modifier.fillMaxWidth()
         )
 
@@ -288,7 +279,7 @@ fun TelaFormCliente(
             horizontalArrangement = Arrangement.End
         ) {
             OutlinedButton(onClick = onCancelar) {
-                Text("Cancela")
+                Text("Cancelar")
             }
             Spacer(modifier = Modifier.width(10.dp))
             Button(
@@ -298,12 +289,11 @@ fun TelaFormCliente(
                     }
                 }
             ) {
-                Text("Salva")
+                Text("Salvar")
             }
         }
     }
 }
-
 
 @Composable
 fun TelaFormProduto(
@@ -317,7 +307,7 @@ fun TelaFormProduto(
 
     Column(modifier = Modifier.fillMaxSize().padding(16.dp)) {
         Text(
-            text = if (produto == null) "Cadastra Novo Produdo" else "Edita Produdo",
+            text = if (produto == null) "Cadastrar Novo Produto" else "Editar Produto",
             style = MaterialTheme.typography.headlineSmall
         )
         Spacer(modifier = Modifier.height(16.dp))
@@ -325,7 +315,7 @@ fun TelaFormProduto(
         OutlinedTextField(
             value = titulo,
             onValueChange = { titulo = it },
-            label = { Text("Nome do produdo") },
+            label = { Text("Nome do produto") },
             modifier = Modifier.fillMaxWidth()
         )
         Spacer(modifier = Modifier.height(8.dp))
@@ -341,7 +331,7 @@ fun TelaFormProduto(
         OutlinedTextField(
             value = categoria,
             onValueChange = { categoria = it },
-            label = { Text("Categora") },
+            label = { Text("Categoria") },
             modifier = Modifier.fillMaxWidth()
         )
 
@@ -352,7 +342,7 @@ fun TelaFormProduto(
             horizontalArrangement = Arrangement.End
         ) {
             OutlinedButton(onClick = onCancelar) {
-                Text("Cancela")
+                Text("Cancelar")
             }
             Spacer(modifier = Modifier.width(10.dp))
             Button(
@@ -362,7 +352,7 @@ fun TelaFormProduto(
                     }
                 }
             ) {
-                Text("Salva")
+                Text("Salvar")
             }
         }
     }
